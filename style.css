@@ -29,3 +29,27 @@
 .blind-limit {margin-top:20px;color:#8ba49f;font-size:13px;max-width:880px;line-height:1.8;}
 @media(max-width:900px){.blind-layout{grid-template-columns:1fr}.blind-section{padding-top:55px}.blind-results .panel{padding:20px}}
 @media(max-width:540px){.blind-metrics{grid-template-columns:1fr}.blind-section .maps-grid{gap:12px}.blind-section .heatmap .cell{font-size:10px}}
+
+/* TEMPORAL HISTORY INVERSION — dynamic held-out trace lab */
+.temporal-section{padding-block:80px}
+.temporal-section .section-heading{margin-bottom:26px}
+.temporal-layout{display:grid;grid-template-columns:minmax(240px,.83fr) minmax(0,1.9fr);gap:18px;align-items:start}
+.temporal-controls,.temporal-body{padding:25px;min-width:0}
+.temporal-controls h3,.temporal-body h3{font-family:var(--serif);font-size:clamp(23px,2vw,30px);font-weight:400;letter-spacing:-.035em;margin:15px 0 13px}
+.temporal-stat{display:flex;flex-direction:column;gap:4px;border-bottom:1px solid var(--border);padding:12px 0}
+.temporal-stat span{color:var(--muted);font-size:11px;letter-spacing:.11em}
+.temporal-stat strong{font:550 32px/1.2 var(--sans);color:var(--green)}
+.temporal-stat small{font:400 14px var(--sans);color:var(--muted)}
+.temporal-controls select{width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:12px;border-radius:8px;margin:7px 0 16px}
+.temporal-switches{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:6px}
+.temporal-switches label{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);padding:6px 8px;background:var(--bg);border-radius:6px}
+.temporal-switches input{accent-color:#9fe5c9}
+.temporal-chart svg{width:100%;height:auto;display:block;min-height:180px}
+.temporal-legend{display:flex;flex-wrap:wrap;gap:15px;margin:9px 0 13px;color:var(--muted);font-size:12px}
+.temporal-legend span{display:flex;align-items:center;gap:7px}
+.temporal-legend i{width:17px;height:3px;display:inline-block;border-radius:5px}
+.temporal-paired{margin-top:20px;padding:26px}
+.temporal-paired .temporal-chart{max-width:1100px;margin:14px auto}
+.temporal-paired strong{color:var(--green);font-weight:600}
+.temporal-note{color:var(--muted);font-size:13px;line-height:1.75}
+@media(max-width:900px){.temporal-layout{grid-template-columns:1fr}.temporal-section{padding-block:50px}}

@@ -9,11 +9,12 @@
   <link rel="stylesheet" href="style.css">
   <script type="module" src="app.js"></script>
   <script type="module" src="blind-app.js"></script>
+  <script type="module" src="temporal-app.js"></script>
 </head>
 <body>
   <header class="topbar">
     <a class="brand" href="#top" aria-label="Monday laboratory home"><span class="brand-icon">M<span class="brand-dot">.</span></span><span>MONDAY<span class="slash">/</span>LAB</span></a>
-    <nav aria-label="Sections"><a href="#experiment">Known hypotheses</a><a href="#blind">Blind inverse</a><a href="#instrument">Instrument</a><a href="#interpretation">What it means</a><a href="https://github.com/anttiluode/MondayRepo" target="_blank" rel="noopener">Source ↗</a></nav>
+    <nav aria-label="Sections"><a href="#experiment">Known hypotheses</a><a href="#blind">Blind inverse</a><a href="#temporal">Temporal history</a><a href="#instrument">Instrument</a><a href="#interpretation">What it means</a><a href="https://github.com/anttiluode/MondayRepo" target="_blank" rel="noopener">Source ↗</a></nav>
     <span class="top-indicator"><span class="live-dot"></span> LOCAL SIMULATION</span>
   </header>
   <main id="top">
@@ -138,15 +139,53 @@
       <p class="blind-limit">The Operaattori-equations fixture uses a seven-compartment <em>illustrative</em> morphology. All 72 stored scalar responses matched the original Operaattori runtime exactly in the <a href="https://github.com/anttiluode/MondayRepo/actions/runs/38208577227">pinned upstream validation run</a> (maximum difference 0 mV). This validates the saved synthetic forward computations, <em>not</em> a real reconstructed neuron or biological QKV. Its three outputs are features of one soma voltage trace. The browser interpolates a saved response grid; it does not run the cable model live.</p>
     </section>
 
+    <section id="temporal" class="temporal-section wrap">
+      <div class="section-heading"><div><div class="eyebrow">03 / TIME-DEPENDENT INVERSE GATE</div><h2>The soma remembers what <em>the instant hides.</em></h2></div><p>Probe a synthetic cable neuron with sequences, not a static response table. Can a learned operator predict the complete voltage trace after histories it has never seen?</p></div>
+      <div class="temporal-layout">
+        <aside class="panel temporal-controls">
+          <div class="panel-tag">FROZEN HELD-OUT BENCHMARK <span>8 SEEDS</span></div>
+          <h3>Memory earns its place?</h3>
+          <p class="temporal-note">Mean held-out soma-voltage RMSE over eight independently generated train/test splits. All three learners see the same training examples.</p>
+          <div id="temporal-metrics">Loading verified traces…</div>
+          <p id="temporal-wins" class="temporal-note"></p>
+          <label for="temporal-case">Examine an unseen history</label>
+          <select id="temporal-case" aria-label="Choose held-out stimulus sequence"><option>Loading…</option></select>
+          <div class="temporal-switches" aria-label="Choose predicted curves">
+            <label><input type="checkbox" data-temporal-line="instant" checked> Current only</label>
+            <label><input type="checkbox" data-temporal-line="linear_history" checked> Linear history</label>
+            <label><input type="checkbox" data-temporal-line="quadratic_history" checked> Nonlinear history</label>
+          </div>
+          <p class="temporal-note">No model reads intracellular voltages. Known external conductance histories enter fixed features; a ridge-regression readout predicts soma voltage.</p>
+        </aside>
+        <div class="panel temporal-body">
+          <div class="panel-tag">CONTINUOUS OUTPUT <span>32 ms TRACE</span></div>
+          <h3>Unseen three-event sequence</h3>
+          <p id="temporal-description" class="temporal-note">Loading test trace…</p>
+          <div id="temporal-plot" class="temporal-chart" aria-live="polite"></div>
+          <div id="temporal-legend" class="temporal-legend"></div>
+          <p class="temporal-note">This is <strong>not</strong> blind stimulus-source recovery: the drives are observed, the dendritic state is hidden. The held-out protocol changes pulse ordering, history count, and late-probe timing.</p>
+        </div>
+      </div>
+      <div class="panel temporal-paired">
+        <div class="panel-tag">SOMA ALIASING <span>KNOWN-ANSWER COUNTEREXAMPLE</span></div>
+        <h3>Same measured soma voltage. Different future response.</h3>
+        <p id="temporal-match-metrics" class="temporal-note">Loading matched-history experiment…</p>
+        <div id="temporal-pair-plot" class="temporal-chart"></div>
+        <div id="temporal-pair-legend" class="temporal-legend"></div>
+        <p class="temporal-note">Conditioner strength was deliberately tuned to equalize one pre-probe soma sample. The probe is identical for both histories, and each curve subtracts its own no-probe baseline. Matching one scalar does not equate full past soma traces or guarantee that the histories are observationally indistinguishable to stronger readers.</p>
+      </div>
+      <p class="temporal-note" id="temporal-status" role="status">Loading the upstream temporal test receipt…</p>
+    </section>
+
     <section id="instrument" class="instrument wrap">
-      <div class="section-heading"><div><div class="eyebrow">03 / INSTRUMENT</div><h2>The heatmap can lie.</h2></div><p>A known external source can manufacture correlations between sensors. Here we control that source.</p></div>
+      <div class="section-heading"><div><div class="eyebrow">04 / INSTRUMENT</div><h2>The heatmap can lie.</h2></div><p>A known external source can manufacture correlations between sensors. Here we control that source.</p></div>
       <div class="artifact-layout panel">
         <div class="artifact-copy"><div class="panel-tag">PASSIVE OBSERVER <span>NOT AN INTERVENTION</span></div><h3>A common signal, three sensors.</h3><p>These are Pearson correlations of simulated sensor recordings. A shared audio-like nuisance waveform is added to each sensor. Move its level and see what happens to the apparent network.</p><label for="artifact">Common-source strength <output id="artifact-label">1.60</output></label><input id="artifact" type="range" min="0" max="3" step="0.10" value="1.60"><p class="fine-print">Right panel uses the <strong>exact known synthetic nuisance</strong> for subtraction (an oracle), not an estimated physical filter. Neither heatmap identifies neural wiring.</p></div>
         <div class="artifact-maps"><div class="map-frame"><h4>RECORDED CORRELATION</h4><div id="passive-raw" class="heatmap passive" role="img" aria-label="Correlation of synthetic sensors including audio contamination"></div></div><div class="map-frame"><h4>KNOWN AUDIO SUBTRACTED</h4><div id="passive-clean" class="heatmap passive" role="img" aria-label="Correlation of synthetic sensors after oracle audio subtraction"></div></div></div>
       </div>
     </section>
     <section id="interpretation" class="interpretation wrap">
-      <div class="section-heading"><div><div class="eyebrow">04 / CLAIM BOUNDARY</div><h2>What can be recovered?</h2></div><p>The experiment distinguishes a measurable operator from the coordinates used to realize it.</p></div>
+      <div class="section-heading"><div><div class="eyebrow">05 / CLAIM BOUNDARY</div><h2>What can be recovered?</h2></div><p>The experiment distinguishes a measurable operator from the coordinates used to realize it.</p></div>
       <div class="essay-grid"><article class="explainer"><span class="section-index">01</span><h3>An operator, not a neuron map</h3><p>We construct a context-dependent response matrix <code>H(c) = V G(c) Kᵀ</code>. This resembles query–key–value factorization, but it is a <strong>signed linear response</strong>—there is no softmax, spike model, or learning here.</p></article><article class="explainer"><span class="section-index">02</span><h3>Interventions beat passive viewing</h3><p>Two circuits agree when <code>c = 0</code>. The active observer chooses the context and input port with the largest predicted response disagreement. Only pulses at informative contexts can identify the specimen.</p></article><article class="explainer"><span class="section-index">03</span><h3>Some insides are unidentifiable</h3><p>Under any invertible latent basis change <code>R</code>, set <code>V′ = VR</code>, <code>K′ = KR⁻ᵀ</code> and <code>G′ = R⁻¹GR</code>. The observable <code>H(c)</code> stays <em>exactly</em> the same. No amount of repetition distinguishes those coordinates.</p></article></div>
       <div class="math-rail"><span>OUR EXPERIMENTAL CONTRACT</span><strong>Choose a probe that changes the answer—otherwise report not identifiable.</strong></div>
       <div class="methods"><div><h3>What this demonstrates</h3><p>An experimentally controlled synthetic inverse problem, a Bayesian two-hypothesis observer, and a mathematical impossibility case. Deterministic seed, Gaussian noise, and known candidate models make the outcomes reproducible.</p></div><div><h3>What it does not demonstrate</h3><p>Not actual EEG, not a recovered biological QKV circuit, not a new theorem, and not blind neural source separation. Its aim is to calibrate an observer before applying inverse models to real recordings or detailed compartment simulations.</p></div></div>
