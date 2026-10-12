@@ -9,11 +9,12 @@
   <link rel="stylesheet" href="style.css">
   <script type="module" src="app.js"></script>
   <script type="module" src="blind-app.js"></script>
+  <script type="module" src="temporal-app.js"></script>
 </head>
 <body>
   <header class="topbar">
     <a class="brand" href="#top" aria-label="Monday laboratory home"><span class="brand-icon">M<span class="brand-dot">.</span></span><span>MONDAY<span class="slash">/</span>LAB</span></a>
-    <nav aria-label="Sections"><a href="#experiment">Known hypotheses</a><a href="#blind">Blind inverse</a><a href="#instrument">Instrument</a><a href="#interpretation">What it means</a><a href="https://github.com/anttiluode/MondayRepo" target="_blank" rel="noopener">Source ↗</a></nav>
+    <nav aria-label="Sections"><a href="#experiment">Known hypotheses</a><a href="#blind">Blind inverse</a><a href="#temporal">Temporal history</a><a href="#instrument">Instrument</a><a href="#interpretation">What it means</a><a href="https://github.com/anttiluode/MondayRepo" target="_blank" rel="noopener">Source ↗</a></nav>
     <span class="top-indicator"><span class="live-dot"></span> LOCAL SIMULATION</span>
   </header>
   <main id="top">
@@ -136,6 +137,44 @@
       </div>
       <div class="math-rail blind-rail"><span>TESTABLE CLAIM</span><strong>Recover a predictive response rule, then ask what new probes it gets wrong.</strong></div>
       <p class="blind-limit">The Operaattori-equations fixture uses a seven-compartment <em>illustrative</em> morphology. All 72 stored scalar responses matched the original Operaattori runtime exactly in the <a href="https://github.com/anttiluode/MondayRepo/actions/runs/38208577227">pinned upstream validation run</a> (maximum difference 0 mV). This validates the saved synthetic forward computations, <em>not</em> a real reconstructed neuron or biological QKV. Its three outputs are features of one soma voltage trace. The browser interpolates a saved response grid; it does not run the cable model live.</p>
+    </section>
+
+    <section id="temporal" class="temporal-section wrap">
+      <div class="section-heading"><div><div class="eyebrow">03 / TIME-DEPENDENT INVERSE GATE</div><h2>The soma remembers what <em>the instant hides.</em></h2></div><p>Probe a synthetic cable neuron with sequences, not a static response table. Can a learned operator predict the complete voltage trace after histories it has never seen?</p></div>
+      <div class="temporal-layout">
+        <aside class="panel temporal-controls">
+          <div class="panel-tag">FROZEN HELD-OUT BENCHMARK <span>8 SEEDS</span></div>
+          <h3>Memory earns its place?</h3>
+          <p class="temporal-note">Mean held-out soma-voltage RMSE over eight independently generated train/test splits. All three learners see the same training examples.</p>
+          <div id="temporal-metrics">Loading verified traces…</div>
+          <p id="temporal-wins" class="temporal-note"></p>
+          <label for="temporal-case">Examine an unseen history</label>
+          <select id="temporal-case" aria-label="Choose held-out stimulus sequence"><option>Loading…</option></select>
+          <div class="temporal-switches" aria-label="Choose predicted curves">
+            <label><input type="checkbox" data-temporal-line="instant" checked> Current only</label>
+            <label><input type="checkbox" data-temporal-line="linear_history" checked> Linear history</label>
+            <label><input type="checkbox" data-temporal-line="quadratic_history" checked> Nonlinear history</label>
+          </div>
+          <p class="temporal-note">No model reads intracellular voltages. Known external conductance histories enter fixed features; a ridge-regression readout predicts soma voltage.</p>
+        </aside>
+        <div class="panel temporal-body">
+          <div class="panel-tag">CONTINUOUS OUTPUT <span>32 ms TRACE</span></div>
+          <h3>Unseen three-event sequence</h3>
+          <p id="temporal-description" class="temporal-note">Loading test trace…</p>
+          <div id="temporal-plot" class="temporal-chart" aria-live="polite"></div>
+          <div id="temporal-legend" class="temporal-legend"></div>
+          <p class="temporal-note">This is <strong>not</strong> blind stimulus-source recovery: the drives are observed, the dendritic state is hidden. The held-out protocol changes pulse ordering, history count, and late-probe timing.</p>
+        </div>
+      </div>
+      <div class="panel temporal-paired">
+        <div class="panel-tag">SOMA ALIASING <span>KNOWN-ANSWER COUNTEREXAMPLE</span></div>
+        <h3>Same measured soma voltage. Different future response.</h3>
+        <p id="temporal-match-metrics" class="temporal-note">Loading matched-history experiment…</p>
+        <div id="temporal-pair-plot" class="temporal-chart"></div>
+        <div id="temporal-pair-legend" class="temporal-legend"></div>
+        <p class="temporal-note">Conditioner strength was deliberately tuned to equalize one pre-probe soma sample. The probe is identical for both histories, and each curve subtracts its own no-probe baseline. Matching one scalar does not equate full past soma traces or guarantee that the histories are observationally indistinguishable to stronger readers.</p>
+      </div>
+      <p class="temporal-note" id="temporal-status" role="status">Loading the upstream temporal test receipt…</p>
     </section>
 
     <section id="instrument" class="instrument wrap">
