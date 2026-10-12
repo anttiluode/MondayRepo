@@ -1,6 +1,6 @@
 {
   "schema": "monday.cable.v1",
-  "provenance": "Independent numerical reproduction of Operaattori passive backward-Euler and local AMPA/NMDA equations; upstream adapter included, check pending",
+  "provenance": "Operaattori reduced.causal_graph_circuit.CausalGraphCircuit on illustrative 7-compartment passive graph",
   "not_biological_data": true,
   "model": "passive cable + implicit local AMPA/NMDA under context conditioning",
   "contexts": [

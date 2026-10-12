@@ -1,0 +1,67 @@
+name: Verify cable fixture against Operaattori upstream
+
+on:
+  push:
+    branches:
+      - main
+      - verify/original-operaattori-runtime
+    paths:
+      - .github/workflows/verify-operaattori.yml
+      - scripts/generate_cable_fixture.py
+      - data/cable_reference.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out MondayRepo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check out pinned original Operaattori
+        uses: actions/checkout@v4
+        with:
+          repository: anttiluode/Operaattori
+          ref: f2398939dc2ef2ec829093953c20637c74e82cd0
+          path: upstream/Operaattori
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install only runtime dependency
+        run: python -m pip install 'numpy==2.1.3'
+      - name: Verify original source identity
+        run: |
+          echo "Operaattori commit: $(git -C upstream/Operaattori rev-parse HEAD)"
+          git -C upstream/Operaattori hash-object reduced/causal_graph_circuit.py
+      - name: Generate fresh upstream responses
+        run: |
+          python scripts/generate_cable_fixture.py --operaattori upstream/Operaattori --out /tmp/upstream_cable.json
+      - name: Compare upstream to committed fixture
+        run: |
+          python - <<'PY'
+          import json
+          import numpy as np
+          a=json.load(open('/tmp/upstream_cable.json'))
+          b=json.load(open('data/cable_reference.json'))
+          x=np.asarray(a['responses'],dtype=float)
+          y=np.asarray(b['responses'],dtype=float)
+          d=np.abs(x-y)
+          loc=np.unravel_index(int(np.argmax(d)),d.shape)
+          print('upstream shape:',x.shape)
+          print('committed shape:',y.shape)
+          print('max absolute error (mV):',float(np.max(d)))
+          print('RMSE (mV):',float(np.sqrt(np.mean((x-y)**2))))
+          print('worst index (context, port, observable):',loc)
+          print('upstream worst value:',float(x[loc]))
+          print('committed worst value:',float(y[loc]))
+          print('upstream Newton iterations:',a['max_newton_iterations'])
+          print('committed Newton iterations:',b['max_newton_iterations'])
+          PY
+          python scripts/generate_cable_fixture.py --operaattori upstream/Operaattori --check data/cable_reference.json
