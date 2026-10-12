@@ -1,0 +1,115 @@
+{
+  "scope": "Synthetic trained-observer comparison; cable uses prerecorded deterministic responses. No neural inference claims.",
+  "methods": "Bayesian ridge response operator with two context coefficients per output/port; fixed and random have same extra pulse budget.",
+  "seed_protocol": "12001 + 673*i, 20 seeds per condition",
+  "results": [
+    {
+      "substrate": "factorized",
+      "policy": "active",
+      "n_seeds": 20,
+      "n_rest_pulses": 4,
+      "n_additional": 12,
+      "holdout_contexts": [
+        -0.5,
+        0.5,
+        1.5
+      ],
+      "mean_rmse": {
+        "constant": 0.43218,
+        "affine": 0.103856,
+        "rank2": 0.090087,
+        "rank1": 0.564613
+      }
+    },
+    {
+      "substrate": "factorized",
+      "policy": "fixed",
+      "n_seeds": 20,
+      "n_rest_pulses": 4,
+      "n_additional": 12,
+      "holdout_contexts": [
+        -0.5,
+        0.5,
+        1.5
+      ],
+      "mean_rmse": {
+        "constant": 0.432447,
+        "affine": 0.096612,
+        "rank2": 0.086076,
+        "rank1": 0.564904
+      }
+    },
+    {
+      "substrate": "factorized",
+      "policy": "random",
+      "n_seeds": 20,
+      "n_rest_pulses": 4,
+      "n_additional": 12,
+      "holdout_contexts": [
+        -0.5,
+        0.5,
+        1.5
+      ],
+      "mean_rmse": {
+        "constant": 0.442031,
+        "affine": 0.157593,
+        "rank2": 0.142792,
+        "rank1": 0.579117
+      }
+    },
+    {
+      "substrate": "cable",
+      "policy": "active",
+      "n_seeds": 20,
+      "n_rest_pulses": 4,
+      "n_additional": 12,
+      "holdout_contexts": [
+        -0.5,
+        0.5,
+        1.5
+      ],
+      "mean_rmse": {
+        "constant": 0.056755,
+        "affine": 0.012889,
+        "rank2": 0.011677,
+        "rank1": 0.032087
+      }
+    },
+    {
+      "substrate": "cable",
+      "policy": "fixed",
+      "n_seeds": 20,
+      "n_rest_pulses": 4,
+      "n_additional": 12,
+      "holdout_contexts": [
+        -0.5,
+        0.5,
+        1.5
+      ],
+      "mean_rmse": {
+        "constant": 0.056438,
+        "affine": 0.012233,
+        "rank2": 0.011375,
+        "rank1": 0.032042
+      }
+    },
+    {
+      "substrate": "cable",
+      "policy": "random",
+      "n_seeds": 20,
+      "n_rest_pulses": 4,
+      "n_additional": 12,
+      "holdout_contexts": [
+        -0.5,
+        0.5,
+        1.5
+      ],
+      "mean_rmse": {
+        "constant": 0.060254,
+        "affine": 0.023327,
+        "rank2": 0.022474,
+        "rank1": 0.037764
+      }
+    }
+  ]
+}
