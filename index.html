@@ -8,11 +8,12 @@
   <title>Monday / The Observer's Matrix</title>
   <link rel="stylesheet" href="style.css">
   <script type="module" src="app.js"></script>
+  <script type="module" src="blind-app.js"></script>
 </head>
 <body>
   <header class="topbar">
     <a class="brand" href="#top" aria-label="Monday laboratory home"><span class="brand-icon">M<span class="brand-dot">.</span></span><span>MONDAY<span class="slash">/</span>LAB</span></a>
-    <nav aria-label="Sections"><a href="#experiment">Experiment</a><a href="#instrument">Instrument</a><a href="#interpretation">What it means</a><a href="https://github.com/anttiluode/MondayRepo" target="_blank" rel="noopener">Source ↗</a></nav>
+    <nav aria-label="Sections"><a href="#experiment">Known hypotheses</a><a href="#blind">Blind inverse</a><a href="#instrument">Instrument</a><a href="#interpretation">What it means</a><a href="https://github.com/anttiluode/MondayRepo" target="_blank" rel="noopener">Source ↗</a></nav>
     <span class="top-indicator"><span class="live-dot"></span> LOCAL SIMULATION</span>
   </header>
   <main id="top">
@@ -100,15 +101,52 @@
         </div>
       </div>
     </section>
+
+    <section id="blind" class="blind-section wrap">
+      <div class="section-heading"><div><div class="eyebrow">02 / NEW EXPERIMENT · BLIND INVERSE</div><h2>Learn the operator.<br><em>Never see the circuit.</em></h2></div><p>Now there is no candidate catalog. The learner sees only the inputs it requested and the three noisy responses. Can it predict what a different intervention will do?</p></div>
+      <div class="blind-layout">
+        <aside class="panel blind-controls">
+          <div class="panel-tag">PROTOCOL 02 <span>NO ORACLE IN SELECTOR</span></div>
+          <fieldset class="control-group"><legend>Unknown forward system</legend>
+            <div class="choice-group"><button type="button" data-blind-substrate="factorized" class="choice active" aria-pressed="true"><span>Hidden factorized circuit</span><small>Randomized two-coordinate synthetic operator</small></button><button type="button" data-blind-substrate="cable" class="choice" aria-pressed="false"><span>Operaattori cable fixture</span><small>Passive cable + local AMPA/NMDA, one soma trace</small></button></div>
+          </fieldset>
+          <fieldset class="control-group"><legend>Conditioning context c</legend><div class="segmented" id="blind-contexts"><button type="button" data-blind-context="-1">−1</button><button type="button" class="active" data-blind-context="0">0</button><button type="button" data-blind-context="1">+1</button></div></fieldset>
+          <fieldset class="control-group"><legend>Dendritic input port</legend><div class="port-grid" id="blind-ports"><button type="button" data-blind-port="0" class="active">01</button><button type="button" data-blind-port="1">02</button><button type="button" data-blind-port="2">03</button><button type="button" data-blind-port="3">04</button></div></fieldset>
+          <div class="control-group range-group"><label for="blind-noise">Observation noise <output id="blind-noise-label">0.120 σ</output></label><input id="blind-noise" type="range" min="0.002" max="0.24" step="0.002" value="0.12"><p>Changing noise resets the learner and its data.</p></div>
+          <div class="button-stack"><button class="btn primary" id="blind-measure" type="button">Measure chosen input <span>→</span></button><button class="btn secondary" id="blind-best" type="button">Choose by uncertainty <span>↗</span></button><button class="btn ghost" id="blind-random" type="button">Measure random input <span>↝</span></button><button class="btn ghost" id="blind-rest" type="button">Measure all ports at rest <span>⊙</span></button></div>
+          <div class="control-foot"><button class="text-btn" type="button" id="blind-new">↻ New hidden specimen</button><button class="text-btn" type="button" id="blind-audit">Run sealed audit</button></div>
+          <p class="status-note" id="blind-status" role="status" aria-live="polite">Try a full sweep at rest. That does not reveal how the response changes with context.</p>
+        </aside>
+        <div class="blind-results">
+          <section class="panel blind-summary">
+            <div class="panel-tag">LEARNED FROM PULSES <span id="blind-count">0 MEASUREMENTS</span></div>
+            <div class="blind-metrics"><div><span class="small-label">POSTERIOR UNCERTAINTY</span><strong class="blind-big" id="blind-uncertainty">2.00</strong><small>Estimated σ for unmeasured response, prior included</small></div><div><span class="small-label">DESIGN IDENTIFIABILITY</span><strong id="blind-coverage" class="blind-mid">0/4 PORTS</strong><small>Two distinct contexts per input port required</small></div></div>
+            <p class="panel-description">The observer estimates <code>H(c) = H₀ + cH₁</code> by Bayesian linear regression. It learns 24 coefficients from the observations only; a rank-two projection is an optional compression, not a recovered anatomical graph.</p>
+          </section>
+          <section class="panel blind-maps">
+            <div class="panel-tag">INFERRED RESPONSES <span>3 OUTPUTS × 4 INPUT PORTS</span></div>
+            <div class="maps-grid"><div class="map-frame"><h4>BLINDLY LEARNED H(c)</h4><div id="blind-map" class="heatmap" aria-label="Predicted response matrix"></div></div><div class="map-frame"><h4>LAST MEASUREMENT AT THIS CONTEXT</h4><div id="blind-observed" class="heatmap" aria-label="Noisy measured response matrix"></div></div></div>
+            <p class="fine-print">The measured grid contains only columns probed at the selected context. The predicted grid comes solely from fitted coefficients. Unmeasured columns are estimates—not observations.</p>
+          </section>
+          <section class="panel blind-audit"><div class="panel-tag">SEALED GENERALIZATION AUDIT <span>DOES NOT TRAIN THE LEARNER</span></div><h3>Can it answer unseen questions?</h3><p class="panel-description">Evaluate predictions at withheld contexts −0.5, +0.5 and +1.5, including extrapolation outside the trained context range. The reference is used only when you request an audit, never to choose a training probe.</p>
+            <button id="blind-audit-main" class="btn secondary" type="button">Evaluate four models on held-out contexts ↗</button>
+            <div class="blind-audit-results" id="blind-audit-results" aria-live="polite"><p class="fine-print">No audit requested. A low training error is not evidence of future-answer accuracy.</p></div>
+          </section>
+        </div>
+      </div>
+      <div class="math-rail blind-rail"><span>TESTABLE CLAIM</span><strong>Recover a predictive response rule, then ask what new probes it gets wrong.</strong></div>
+      <p class="blind-limit">The Operaattori-equations fixture uses a seven-compartment <em>illustrative</em> morphology generated by an independent implementation of its published numerical equations (cross-check adapter to the upstream runtime supplied but not yet executed). It is not a real reconstructed cell or biological experiment. Its outputs are three features of a single soma voltage trace. The browser uses a fixed saved response grid, not a live cable solver, and interpolates between saved contexts.</p>
+    </section>
+
     <section id="instrument" class="instrument wrap">
-      <div class="section-heading"><div><div class="eyebrow">02 / INSTRUMENT</div><h2>The heatmap can lie.</h2></div><p>A known external source can manufacture correlations between sensors. Here we control that source.</p></div>
+      <div class="section-heading"><div><div class="eyebrow">03 / INSTRUMENT</div><h2>The heatmap can lie.</h2></div><p>A known external source can manufacture correlations between sensors. Here we control that source.</p></div>
       <div class="artifact-layout panel">
         <div class="artifact-copy"><div class="panel-tag">PASSIVE OBSERVER <span>NOT AN INTERVENTION</span></div><h3>A common signal, three sensors.</h3><p>These are Pearson correlations of simulated sensor recordings. A shared audio-like nuisance waveform is added to each sensor. Move its level and see what happens to the apparent network.</p><label for="artifact">Common-source strength <output id="artifact-label">1.60</output></label><input id="artifact" type="range" min="0" max="3" step="0.10" value="1.60"><p class="fine-print">Right panel uses the <strong>exact known synthetic nuisance</strong> for subtraction (an oracle), not an estimated physical filter. Neither heatmap identifies neural wiring.</p></div>
         <div class="artifact-maps"><div class="map-frame"><h4>RECORDED CORRELATION</h4><div id="passive-raw" class="heatmap passive" role="img" aria-label="Correlation of synthetic sensors including audio contamination"></div></div><div class="map-frame"><h4>KNOWN AUDIO SUBTRACTED</h4><div id="passive-clean" class="heatmap passive" role="img" aria-label="Correlation of synthetic sensors after oracle audio subtraction"></div></div></div>
       </div>
     </section>
     <section id="interpretation" class="interpretation wrap">
-      <div class="section-heading"><div><div class="eyebrow">03 / CLAIM BOUNDARY</div><h2>What can be recovered?</h2></div><p>The experiment distinguishes a measurable operator from the coordinates used to realize it.</p></div>
+      <div class="section-heading"><div><div class="eyebrow">04 / CLAIM BOUNDARY</div><h2>What can be recovered?</h2></div><p>The experiment distinguishes a measurable operator from the coordinates used to realize it.</p></div>
       <div class="essay-grid"><article class="explainer"><span class="section-index">01</span><h3>An operator, not a neuron map</h3><p>We construct a context-dependent response matrix <code>H(c) = V G(c) Kᵀ</code>. This resembles query–key–value factorization, but it is a <strong>signed linear response</strong>—there is no softmax, spike model, or learning here.</p></article><article class="explainer"><span class="section-index">02</span><h3>Interventions beat passive viewing</h3><p>Two circuits agree when <code>c = 0</code>. The active observer chooses the context and input port with the largest predicted response disagreement. Only pulses at informative contexts can identify the specimen.</p></article><article class="explainer"><span class="section-index">03</span><h3>Some insides are unidentifiable</h3><p>Under any invertible latent basis change <code>R</code>, set <code>V′ = VR</code>, <code>K′ = KR⁻ᵀ</code> and <code>G′ = R⁻¹GR</code>. The observable <code>H(c)</code> stays <em>exactly</em> the same. No amount of repetition distinguishes those coordinates.</p></article></div>
       <div class="math-rail"><span>OUR EXPERIMENTAL CONTRACT</span><strong>Choose a probe that changes the answer—otherwise report not identifiable.</strong></div>
       <div class="methods"><div><h3>What this demonstrates</h3><p>An experimentally controlled synthetic inverse problem, a Bayesian two-hypothesis observer, and a mathematical impossibility case. Deterministic seed, Gaussian noise, and known candidate models make the outcomes reproducible.</p></div><div><h3>What it does not demonstrate</h3><p>Not actual EEG, not a recovered biological QKV circuit, not a new theorem, and not blind neural source separation. Its aim is to calibrate an observer before applying inverse models to real recordings or detailed compartment simulations.</p></div></div>
