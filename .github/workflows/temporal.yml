@@ -1,3 +1,4 @@
+# On main: verify the frozen temporal fixture with the original pinned solver.
 name: Temporal history inversion — pinned Operaattori
 on:
   push:
