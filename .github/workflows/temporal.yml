@@ -87,3 +87,7 @@ jobs:
           assert f['matched_soma']['max_probe_increment_difference_mV'] > 1.0
           print('PASS temporal known-input prediction and snapshot nonidentifiability')
           PY
+      - name: Check original and temporal browser fixture tests
+        run: |
+          node --version
+          node --test tests/*.test.mjs
