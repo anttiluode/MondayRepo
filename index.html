@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#10161b">
+  <meta name="description" content="An interactive known-answer experiment in recovering neural response operators, active probing and exact non-identifiability.">
+  <title>Monday / The Observer's Matrix</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Monday laboratory home"><span class="brand-icon">M<span class="brand-dot">.</span></span><span>MONDAY<span class="slash">/</span>LAB</span></a>
+    <nav aria-label="Sections"><a href="#experiment">Experiment</a><a href="#instrument">Instrument</a><a href="#interpretation">What it means</a><a href="https://github.com/anttiluode/MondayRepo" target="_blank" rel="noopener">Source ↗</a></nav>
+    <span class="top-indicator"><span class="live-dot"></span> LOCAL SIMULATION</span>
+  </header>
+  <main id="top">
+    <section class="hero wrap">
+      <div class="hero-text">
+        <div class="eyebrow">FIELD NOTE 001 <span class="dash"></span> 12 OCTOBER 2026</div>
+        <h1>Can you recover<br>the <em>inside</em> from<br>the <em>answer?</em></h1>
+        <p>One hidden circuit. Three observable signals. Four places to poke. The same measured response can hide radically different internal coordinates.</p>
+        <a href="#experiment" class="start-link">Open the experiment <span>↘</span></a>
+      </div>
+      <div class="hero-graphic" aria-label="Conceptual diagram: hidden two-dimensional circuit, outputs and observing probes" role="img">
+        <svg viewBox="0 0 520 420" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9ddec8"/><stop offset="1" stop-color="#7c9ed8"/></linearGradient>
+          </defs>
+          <circle cx="264" cy="204" r="130" fill="none" stroke="#34464b" stroke-dasharray="4 8"/>
+          <circle cx="264" cy="204" r="102" fill="none" stroke="#34464b" stroke-width="1.2"/>
+          <circle cx="264" cy="204" r="66" fill="none" stroke="#4b686b" stroke-width="1.4"/>
+          <g stroke="#6a9d9b" opacity=".7" fill="none" stroke-width="1.6">
+            <path d="M33 96 C146 96 150 186 239 177"/><path d="M33 170 C146 170 178 212 239 177"/><path d="M33 246 C151 246 187 246 239 225"/><path d="M33 320 C151 320 161 251 239 225"/>
+            <path d="M285 177 C380 171 404 99 489 100"/><path d="M285 198 C377 203 416 208 489 208"/><path d="M285 225 C377 257 423 319 489 317"/>
+          </g>
+          <g stroke="url(#g)" fill="#19292d" stroke-width="2">
+            <circle cx="241" cy="177" r="18"/><circle cx="286" cy="225" r="18"/>
+            <path d="M257 184 L271 218"/>
+          </g>
+          <g fill="#ecf2e9" font-size="14" font-family="monospace" text-anchor="middle">
+            <text x="241" y="182">z₁</text><text x="286" y="230">z₂</text>
+          </g>
+          <g fill="#a4d6cb"><circle cx="33" cy="96" r="7"/><circle cx="33" cy="170" r="7"/><circle cx="33" cy="246" r="7"/><circle cx="33" cy="320" r="7"/></g>
+          <g fill="#eabf83"><circle cx="489" cy="100" r="7"/><circle cx="489" cy="208" r="7"/><circle cx="489" cy="317" r="7"/></g>
+          <g fill="#d4dcd6" font-family="monospace" font-size="12">
+            <text x="20" y="77">u₁</text><text x="20" y="151">u₂</text><text x="20" y="227">u₃</text><text x="20" y="301">u₄</text>
+            <text x="463" y="81">y₁</text><text x="463" y="189">y₂</text><text x="463" y="298">y₃</text>
+          </g>
+          <g fill="#86a29e" font-family="monospace" font-size="12" text-anchor="middle"><text x="264" y="44">HIDDEN / 2D STATE</text><text x="264" y="382">OBSERVE ≠ IDENTIFY</text></g>
+        </svg>
+        <div class="graphic-corner">FIG 01 <span>·</span> SIMULATED INPUT / OUTPUT</div>
+      </div>
+    </section>
+    <section class="facts wrap" aria-label="Experiment facts">
+      <div><span class="fact-number">04</span><span class="fact-label">Input ports</span></div>
+      <div><span class="fact-number">03</span><span class="fact-label">Output channels</span></div>
+      <div><span class="fact-number">02</span><span class="fact-label">Latent coordinates</span></div>
+      <div><span class="fact-number">∞</span><span class="fact-label">Equivalent bases</span></div>
+    </section>
+    <section id="experiment" class="experiment wrap">
+      <div class="section-heading"><div><div class="eyebrow">01 / EXPERIMENT</div><h2>The observer's desk</h2></div><p>Switch hidden hypotheses. Apply controlled inputs. See whether the evidence can choose between them.</p></div>
+      <div class="lab-layout">
+        <aside class="controls panel">
+          <div class="panel-tag">PROTOCOL <span>01</span></div>
+          <h3>Design the measurement</h3>
+          <p class="aside-help">Two circuits are proposed. One is secretly generating the responses. Your instrument can read three outputs after any permitted pulse.</p>
+          <fieldset class="control-group"><legend>Which rival explanations?</legend>
+            <div class="choice-group" id="mode-buttons"><button type="button" class="choice active" data-mode="identifiable" aria-pressed="true"><span>Different response</span><small>Same at rest; separate under context</small></button><button type="button" class="choice" data-mode="gauge" aria-pressed="false"><span>Gauge twins</span><small>Different inside; identical for every probe</small></button></div>
+          </fieldset>
+          <fieldset class="control-group"><legend>Set the context <span class="micro-hint">c</span></legend>
+            <div class="segmented" id="context-buttons"><button type="button" data-context="-1">−1</button><button type="button" data-context="0" class="active">0 <small>rest</small></button><button type="button" data-context="1">+1</button></div>
+          </fieldset>
+          <fieldset class="control-group"><legend>Choose the input port</legend>
+            <div class="port-grid" id="port-buttons"><button type="button" data-port="0" class="active">01</button><button type="button" data-port="1">02</button><button type="button" data-port="2">03</button><button type="button" data-port="3">04</button></div>
+          </fieldset>
+          <div class="control-group range-group"><label for="noise">Measurement noise <output id="noise-label">0.22 σ</output></label><input id="noise" type="range" min="0.06" max="0.50" step="0.02" value="0.22"><p>Changing noise begins a new specimen, so likelihoods stay calibrated.</p></div>
+          <div class="button-stack"><button type="button" id="pulse" class="btn primary">Send chosen pulse <span>→</span></button><button type="button" id="best" class="btn secondary">Ask best discriminating question <span>↗</span></button><button type="button" id="random" class="btn ghost">Send random pulse <span>↝</span></button></div>
+          <div class="control-foot"><button type="button" class="text-btn" id="new-specimen">↻ New specimen</button><button type="button" class="text-btn" id="reveal">Reveal hidden circuit</button></div>
+          <p class="status-note" id="experiment-status" role="status" aria-live="polite">Begin at rest. Then choose a context that might distinguish the circuits.</p>
+        </aside>
+        <div class="results">
+          <section class="panel posterior-panel" aria-label="Inference result">
+            <div class="panel-tag">OBSERVER STATE <span id="pulse-count">0 PULSES</span></div>
+            <div class="posterior-head"><div><span class="small-label">BELIEF IN CIRCUIT A</span><div class="big-number" id="posterior-number">50.0<span>%</span></div></div><div class="verdict" id="verdict">UNRESOLVED</div></div>
+            <div class="belief-meter" role="img" aria-label="Posterior probability for circuit A and circuit B"><span id="meter-a" style="width:50%"></span><span id="meter-b" style="width:50%"></span></div>
+            <div class="meter-labels"><span>A · <strong id="pa-label">50.0%</strong></span><span>B · <strong id="pb-label">50.0%</strong></span></div>
+            <p class="result-caption" id="result-caption">A passive observation at context 0 cannot tell these two hypotheses apart.</p>
+          </section>
+          <section class="panel map-panel" aria-label="Predicted and measured responses">
+            <div class="panel-tag">RESPONSE OPERATOR <span>3 OUTPUTS × 4 PORTS</span></div>
+            <h3>Not a correlation matrix.</h3>
+            <p class="panel-description">Each cell answers: <em>If I perturb input port j, how much does output i change?</em> Hypotheses are known to the observer; the hidden truth is not.</p>
+            <div class="maps-grid"><div class="map-frame"><h4>HYPOTHESIS A</h4><div id="map-a" class="heatmap" role="img" aria-label="Predicted response matrix of circuit A"></div></div><div class="map-frame"><h4>HYPOTHESIS B</h4><div id="map-b" class="heatmap" role="img" aria-label="Predicted response matrix of circuit B"></div></div></div>
+            <div class="map-bottom"><span class="scale-title">SIGNED RESPONSE</span><div class="scale-track"><span>NEGATIVE</span><div class="gradient-scale"></div><span>POSITIVE</span></div></div>
+            <div class="measured-head"><h4>MEASURED OUTPUTS</h4><span>Only probed columns are filled</span></div><div id="map-measured" class="heatmap measured" role="img" aria-label="Measured pulse response matrix"></div>
+          </section>
+          <section class="panel evidence-panel" aria-label="Probe history"><div class="panel-tag">OBSERVATION LEDGER <span>RECENT PULSES</span></div><div class="ledger-wrap"><table><thead><tr><th>#</th><th>Context</th><th>Port</th><th>Measured outputs</th><th>P(A)</th></tr></thead><tbody id="ledger"><tr><td colspan="5" class="empty-ledger">No pulses recorded yet. The instrument is waiting.</td></tr></tbody></table></div></section>
+        </div>
+      </div>
+    </section>
+    <section id="instrument" class="instrument wrap">
+      <div class="section-heading"><div><div class="eyebrow">02 / INSTRUMENT</div><h2>The heatmap can lie.</h2></div><p>A known external source can manufacture correlations between sensors. Here we control that source.</p></div>
+      <div class="artifact-layout panel">
+        <div class="artifact-copy"><div class="panel-tag">PASSIVE OBSERVER <span>NOT AN INTERVENTION</span></div><h3>A common signal, three sensors.</h3><p>These are Pearson correlations of simulated sensor recordings. A shared audio-like nuisance waveform is added to each sensor. Move its level and see what happens to the apparent network.</p><label for="artifact">Common-source strength <output id="artifact-label">1.60</output></label><input id="artifact" type="range" min="0" max="3" step="0.10" value="1.60"><p class="fine-print">Right panel uses the <strong>exact known synthetic nuisance</strong> for subtraction (an oracle), not an estimated physical filter. Neither heatmap identifies neural wiring.</p></div>
+        <div class="artifact-maps"><div class="map-frame"><h4>RECORDED CORRELATION</h4><div id="passive-raw" class="heatmap passive" role="img" aria-label="Correlation of synthetic sensors including audio contamination"></div></div><div class="map-frame"><h4>KNOWN AUDIO SUBTRACTED</h4><div id="passive-clean" class="heatmap passive" role="img" aria-label="Correlation of synthetic sensors after oracle audio subtraction"></div></div></div>
+      </div>
+    </section>
+    <section id="interpretation" class="interpretation wrap">
+      <div class="section-heading"><div><div class="eyebrow">03 / CLAIM BOUNDARY</div><h2>What can be recovered?</h2></div><p>The experiment distinguishes a measurable operator from the coordinates used to realize it.</p></div>
+      <div class="essay-grid"><article class="explainer"><span class="section-index">01</span><h3>An operator, not a neuron map</h3><p>We construct a context-dependent response matrix <code>H(c) = V G(c) Kᵀ</code>. This resembles query–key–value factorization, but it is a <strong>signed linear response</strong>—there is no softmax, spike model, or learning here.</p></article><article class="explainer"><span class="section-index">02</span><h3>Interventions beat passive viewing</h3><p>Two circuits agree when <code>c = 0</code>. The active observer chooses the context and input port with the largest predicted response disagreement. Only pulses at informative contexts can identify the specimen.</p></article><article class="explainer"><span class="section-index">03</span><h3>Some insides are unidentifiable</h3><p>Under any invertible latent basis change <code>R</code>, set <code>V′ = VR</code>, <code>K′ = KR⁻ᵀ</code> and <code>G′ = R⁻¹GR</code>. The observable <code>H(c)</code> stays <em>exactly</em> the same. No amount of repetition distinguishes those coordinates.</p></article></div>
+      <div class="math-rail"><span>OUR EXPERIMENTAL CONTRACT</span><strong>Choose a probe that changes the answer—otherwise report not identifiable.</strong></div>
+      <div class="methods"><div><h3>What this demonstrates</h3><p>An experimentally controlled synthetic inverse problem, a Bayesian two-hypothesis observer, and a mathematical impossibility case. Deterministic seed, Gaussian noise, and known candidate models make the outcomes reproducible.</p></div><div><h3>What it does not demonstrate</h3><p>Not actual EEG, not a recovered biological QKV circuit, not a new theorem, and not blind neural source separation. Its aim is to calibrate an observer before applying inverse models to real recordings or detailed compartment simulations.</p></div></div>
+      <p class="lineage">Built from questions raised by <a href="https://github.com/anttiluode/BrainLoops">BrainLoops</a>, <a href="https://github.com/anttiluode/HeadAsResonator">HeadAsResonator</a>, <a href="https://github.com/anttiluode/LensLuotainTarget">LensLuotainTarget</a>, <a href="https://github.com/anttiluode/Operaattori">Operaattori</a> and <a href="https://github.com/anttiluode/TransientWaveCompiler">TransientWaveCompiler</a>. The mechanisms here are self-contained toy equations, not imported biological results.</p>
+    </section>
+  </main>
+  <footer class="footer wrap"><span>MONDAY / THE OBSERVER'S MATRIX</span><span>NO TRACKING · NO SERVER · MIT</span><a href="https://github.com/anttiluode/MondayRepo">VIEW SOURCE ↗</a></footer>
+</body>
+</html>
